@@ -1,6 +1,7 @@
 
 import './App.css'
 import TaskForm from './components/TaskForm'
+import TaskList from './components/TaskList'
 
 function App() {
  
@@ -13,6 +14,10 @@ function App() {
       <p className='text-gray-600 text-2xl text-center'>Asigna tareas de equipo</p>
       <div className='max-w-3xl mx-auto bg-white p-4 shadow-lg rounded-lg mt-4'>
         <TaskForm></TaskForm>
+      </div>
+      <div className='max-w-3xl mx-auto bg-white p-4 shadow-lg rounded-lg mt-4'> 
+      <TaskList></TaskList>
+
       </div>
     </>
   )

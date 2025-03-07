@@ -10,9 +10,6 @@ export type Status={
     id:number,
     name:string}
 
- 
-
-
 export type Task={
     id:string,
     taskName:string,

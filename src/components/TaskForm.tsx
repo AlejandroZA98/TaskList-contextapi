@@ -2,7 +2,7 @@ import DatePicker from 'react-date-picker'
 import 'react-date-picker/dist/DatePicker.css'
 import 'react-calendar/dist/Calendar.css'
 import { users } from "../data/users";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Task, Value } from "../types";
 import { v4 as uuidv4 } from "uuid";
 import { status_activity } from "../data/status_activity";
@@ -20,6 +20,14 @@ export default function TaskForm() {
       });
     const [error,setError] = useState('');
     const {state,dispatch} = useTask();
+    useEffect(()=>{
+
+        if (state.editId){
+            const editTask = state.tasks.filter((t) => t.id === state.editId)[0];
+            console.log(editTask)
+            setTask(editTask);
+        }
+    },[state.editId])
     // Evento en inputs
     const handleChange=(e:ChangeEvent<HTMLInputElement>| ChangeEvent<HTMLSelectElement>)=>{
     const {name,value} = e.target;
@@ -37,6 +45,17 @@ export default function TaskForm() {
         if(Object.values(task).includes('')){
             setError('Todos los campos son obligatorios')
             return
+        }
+        if(state.editId){
+            dispatch({type:'update-task',payload:{task}})
+            setTask({
+                id:uuidv4(),
+                taskName:'',
+                user:0,
+                status:'',
+                create_date:new Date(),
+                finish_date:new Date(),
+            })
         }
         else{
             dispatch({type:'add-task',payload:{task}})

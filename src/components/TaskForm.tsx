@@ -24,19 +24,16 @@ export default function TaskForm() {
 
         if (state.editId){
             const editTask = state.tasks.filter((t) => t.id === state.editId)[0];
-            console.log(editTask)
             setTask(editTask);
         }
     },[state.editId])
     // Evento en inputs
     const handleChange=(e:ChangeEvent<HTMLInputElement>| ChangeEvent<HTMLSelectElement>)=>{
     const {name,value} = e.target;
-    console.log(name,value);
     setTask({...task,[name]:value});
      }
      // Evento en fecha
     const handleChangeDate=(value:Value)=>{
-    console.log(value)
     setTask({...task,finish_date:value})
     }
     //SUBMIT
@@ -56,6 +53,8 @@ export default function TaskForm() {
                 create_date:new Date(),
                 finish_date:new Date(),
             })
+            setError('')
+
         }
         else{
             dispatch({type:'add-task',payload:{task}})
@@ -74,8 +73,8 @@ export default function TaskForm() {
   return (
         <>
         <form onSubmit={handleSubmit} className='space-y-4'>
-        <legend
-            className='uppercase text-center text-2xl font-black border-b-4'>Nueva Actividad</legend>
+            {state.editId? <legend className='uppercase text-center text-2xl font-black border-b-4'>Editar Actividad</legend>
+            :<legend className='uppercase text-center text-2xl font-black border-b-4'>Nueva Actividad</legend>}
                 {error && <ErrorMessage>{error}</ErrorMessage>}
 
                 <div className='flex flex-col  gap-2'>
@@ -143,7 +142,7 @@ export default function TaskForm() {
                 </div>
             <input type="submit"
             className='bg-blue-600 cursor-pointer w-full mt-1 p-2 text-white uppercase
-            font-bold rounded-lg' value="Guardar" />   
+            font-bold rounded-lg'  value={state.editId? "Editar":"Guardar"} />   
 
         </form>
         
